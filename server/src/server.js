@@ -1,7 +1,7 @@
 const Koa = require('koa');
 const app = new Koa();
-const route = require('koa-route');
 const path = require('path');
+const routers = require('./routers');
 const koaBody = require('koa-body');
 
 app.use(koaBody());
@@ -17,6 +17,10 @@ const errCatch = async (ctx, next) => {
     }
 }
 app.use(errCatch);
+// 启动路由
+app.use(routers.routes());
+
+app.use(routers.allowedMethods());
 
 app.listen(9093, function () {
     console.log('start 9093');
