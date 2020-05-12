@@ -3,6 +3,7 @@ const app = new Koa();
 const path = require('path');
 const routers = require('./routers');
 const koaBody = require('koa-body');
+const model = require('./model');
 
 app.use(koaBody());
 // 最外层错误捕获中间件

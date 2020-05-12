@@ -16,6 +16,7 @@
     "koa-route": "^3.2.0",
     "koa-router": "^8.0.8",
     "koa-static": "^5.0.0",
-    "mongoose": "^5.9.13"
+    "mongoose": "^5.9.13",
+    "utility": "^1.16.3"
   }
 }
