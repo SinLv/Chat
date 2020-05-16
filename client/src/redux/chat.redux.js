@@ -64,7 +64,7 @@ export function readMsg(from){
 export function getMsgList(){
     //getState参数可以获取当前redux中的所有信息
     return (dispatch,getState)=>{
-        axios.get('/user/getmsgList')
+        axios.get('/user/getmsglist')
                 .then(res=>{
                     if(res.status===200 && res.data.code===0){
                         // console.log("caht.redux.js--->getMsgList-->state",getState())
