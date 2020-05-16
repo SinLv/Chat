@@ -45,20 +45,54 @@ routes.post('/user/register', async (ctx, next) => {
         ctx.response.body = {code: 0, data:result};
     }
     next();
-}).get('/user/list', async (cxt, next) => {
-    const {type} = cxt.request.query;
+}).get('/user/list', async (ctx, next) => {
+    const {type} = ctx.request.query;
     console.log(type);
     let result = await User.find({type});
-    cxt.response.body = {code: 0, data: result};
+    ctx.response.body = {code: 0, data: result};
     next();
-}).get('/user/info', (ctx, next) => {
+}).get('/user/getmsglist', async (ctx, next) => {
+    const user = ctx.cookies.get('userid');
+    // 先查詢所有的消息列表
+    let userdoc = await User.find({});
+    let users = {};
+    userdoc.forEach(v => {
+        // 获取用户的名称和头像
+        users[v._id] = {name: v.user, avatar:v.avatar}
+    });
+    // 查询当前用户所有的发出和收到信息
+    let doc = await Chat.find({'$or': [{from: user, to: user}]});
+    if (!doc) {
+        ctx.response.body = {code: 0, msgs: doc, users:users};
+    } else {
+        ctx.response.body = {code: 0, msgs: [], users:users};
+    }
+    next();
+}).post('/user/readmsg', async (ctx, next) => {
+    //将未读信息修改为已读
+    const userid = ctx.cookies.get('userid');
+    const {from} = ctx.request.body;
+    let doc = await Chat.update(
+        {from, to: userid},
+        {'$set': {read: true}},
+        {'multi':true},
+    );
+    console.log("user-->readmsg",doc)
+    ctx.response.body = {code:0,num:doc.nModified};
+    next();
+}).get('/user/info', async (ctx, next) => {
     const userid = ctx.cookies.get('userid');
     if (!userid) {
-        ctx.response.body = {code: 1};
-        next();
+        ctx.response.body = {code:1};
     }
-    
-})
+    let doc = await User.findOne({id: userid}, _filter);
+    if (doc) {
+        ctx.response.body = {code:0,data:doc};
+    } else {
+        ctx.response.body = {code:1};
+    }
+    next();
+});
 
 function md5Pwd(pwd){
     const salt = 'th_is_good546dsadfdgr!@#~33'

@@ -2,21 +2,24 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "electron": "electron ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "electron": "^8.3.0",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-route": "^3.2.0",
     "koa-router": "^8.0.8",
     "koa-static": "^5.0.0",
     "mongoose": "^5.9.13",
+    "socket.io": "^2.3.0",
     "utility": "^1.16.3"
   }
 }
