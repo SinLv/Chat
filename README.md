@@ -5,7 +5,7 @@ web端: react + redux
 服务端: node.js + koa + mongoose  
 数据库：mongodb  
 生成桌面应用: electron  
-___  
+---
 ~~~  
 1. 启动web端
 cd client
